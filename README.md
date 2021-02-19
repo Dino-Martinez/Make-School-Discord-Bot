@@ -4,6 +4,8 @@
 
 Before setting up, make sure you have [node](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm) installed.
 
+Before working on this project, consider checking out this [tutorial on using discord.js](https://discordjs.guide/) - for the time being, this tutorial is only useful until 'Commands with user inputs.'
+
 1. Clone this repository onto your local machine using git CLI: `git clone git@github.com:Dino-Martinez/Make-School-Discord-Bot.git`
 2. CD into the project root directory `/Make-School-Bot`
 3. Install dependencies/style guides using `npm ci`
