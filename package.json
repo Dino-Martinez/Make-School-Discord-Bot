@@ -1,0 +1,25 @@
+{
+  "name": "Make-School-Bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dino-Martinez/Make-School-Discord-Bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dino-Martinez/Make-School-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/Dino-Martinez/Make-School-Discord-Bot#readme",
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "standard": "^16.0.3"
+  }
+}
