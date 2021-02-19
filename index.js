@@ -17,3 +17,19 @@ client.once('ready', () => {
 })
 
 client.login(process.env.BOT_TOKEN)
+
+// Simple test to check that bot is working
+// Any message sent in the server will be logged
+client.on('message', message => {
+  console.log(message.content)
+
+  // Simple ping command - this will be modularized in the future
+  if (message.content === '!ping') {
+    // send back "Pong." to the channel the message was sent in
+    message.channel.send('Pong.')
+  }
+
+  if (message.content === '!help') {
+    message.channel.send('This command is not yet configured!')
+  }
+})
