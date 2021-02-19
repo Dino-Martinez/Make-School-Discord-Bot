@@ -9,7 +9,8 @@ Before working on this project, consider checking out this [tutorial on using di
 1. Clone this repository onto your local machine using git CLI: `git clone git@github.com:Dino-Martinez/Make-School-Discord-Bot.git`
 2. CD into the project root directory `/Make-School-Bot`
 3. Install dependencies/style guides using `npm ci`
-4. Make sure you switch to the dev branch before making any changes `git checkout -b dev`
-5. <strong> Before pushing to github, make sure you enforce styling: </strong>
+4. Create a file named `.env` at the root directory, and add the line `BOT_TOKEN=<TOKEN GOES HERE>` replacing the right hand side with your bot token.
+5. Make sure you switch to the dev branch before making any changes `git checkout -b dev`
+6. <strong> Before pushing to github, make sure you enforce styling: </strong>
    - Run `npm run lint <file_path>` to receive styling suggestions.
    - Run `npm run fix <file_path>` to automatically fix incorrect styling. Note: this will not always fix everything, you may have to fix certain things manually.
