@@ -5,7 +5,9 @@
   "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "fix": "standard --fix",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.20.0",
+    "nodemon": "^2.0.7",
     "standard": "^16.0.3"
   }
 }
