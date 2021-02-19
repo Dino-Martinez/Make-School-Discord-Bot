@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Dino-Martinez/Make-School-Discord-Bot#readme",
   "devDependencies": {
+    "discord.js": "^12.5.1",
     "eslint": "^7.20.0",
     "standard": "^16.0.3"
   }
