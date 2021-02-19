@@ -1,1 +1,12 @@
-# Discord Bot for the official Make School discord server 
+# Discord Bot for the official Make School discord server
+
+## Set up:
+
+Before setting up, make sure you have [node](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm) installed.
+
+1. Clone this repository onto your local machine using git CLI: `git clone git@github.com:Dino-Martinez/Make-School-Discord-Bot.git`
+2. CD into the project root directory `/Make-School-Bot`
+3. Install dependencies/style guides using `npm ci`
+4. <strong> Before pushing to github, make sure you enforce styling: </strong>
+   - Run `npm run lint <file_path>` to receive styling suggestions.
+   - Run `npm run fix <file_path>` to automatically fix incorrect styling. Note: this will not always fix everything, you may have to fix certain things manually.
