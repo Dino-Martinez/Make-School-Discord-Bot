@@ -3,13 +3,27 @@
  */
 
 // Require necessary packages
+const fs = require('fs')
 const dotenv = require('dotenv')
 const Discord = require('discord.js')
+const { prefix } = require('./config/bot-config.json')
+
+dotenv.config()
 
 // Discord client setup/login
 const client = new Discord.Client()
 
-dotenv.config()
+// Grab list of commands from our commands folder
+client.commands = new Discord.Collection()
+const commandFiles = fs
+  .readdirSync('./commands')
+  .filter(file => file.endsWith('.js'))
+
+// Populate our commands list with the modules in our commands folder
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`)
+  client.commands.set(command.name, command)
+}
 
 // Log message so we know the bot is ready for use
 client.once('ready', () => {
@@ -18,18 +32,23 @@ client.once('ready', () => {
 
 client.login(process.env.BOT_TOKEN)
 
-// Simple test to check that bot is working
-// Any message sent in the server will be logged
+// Listen for messages and handle accordingly
 client.on('message', message => {
-  console.log(message.content)
+  // If message is not a command or if author is a bot, then do nothing
+  if (!message.content.startsWith(prefix) || message.author.bot) return
 
-  // Simple ping command - this will be modularized in the future
-  if (message.content === '!ping') {
-    // send back "Pong." to the channel the message was sent in
-    message.channel.send('Pong.')
-  }
+  // Separate the command from the arguments
+  const args = message.content
+    .slice(prefix.length)
+    .trim()
+    .split(/ +/)
+  const command = args.shift().toLowerCase()
 
-  if (message.content === '!help') {
-    message.channel.send('This command is not yet configured!')
+  // Dynamically execute command, if it exists in our command folder.
+  try {
+    client.commands.get(command).execute(message, args)
+  } catch (error) {
+    console.error(error)
+    message.reply('There was an error trying to execute that command!')
   }
 })
