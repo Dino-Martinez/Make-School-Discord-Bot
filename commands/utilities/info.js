@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const { EmbedWrapper } = require('../../helpers/EmbedWrapper.js')
 
 module.exports = {
   name: 'info',
@@ -18,22 +18,19 @@ module.exports = {
       const name = guild.name
       const memberCount = guild.memberCount
       const owner = guild.owner.user.username
-      const response = new Discord.MessageEmbed()
-        .setColor('#ffbad2')
-        .setAuthor('Rich Embeds', 'https://i.imgur.com/wSTFkRM.png')
-        .setFooter('Courtesy of custom bot')
-        .setTitle(`Here is information about ${name}`)
-        .setTimestamp()
-        .addFields(
-          {
-            name: 'Owned by:',
-            value: owner
-          },
-          {
-            name: 'Member Count:',
-            value: memberCount
-          }
-        )
+      const response = new EmbedWrapper(`Here is information about ${name}`)
+
+      // Add our fields
+      response.addFields(
+        {
+          name: 'Owned by:',
+          value: owner
+        },
+        {
+          name: 'Member Count:',
+          value: memberCount
+        }
+      )
 
       // Send formatted string back to user
       channel.send(response)

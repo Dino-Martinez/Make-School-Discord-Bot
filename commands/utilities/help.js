@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Discord = require('discord.js')
+const { EmbedWrapper } = require('../../helpers/EmbedWrapper.js')
 
 module.exports = {
   name: 'help',
@@ -15,16 +15,11 @@ module.exports = {
     // Check that the guild is available for processing
     if (guild.available) {
       // Build response string based on number of args
-      const response = new Discord.MessageEmbed()
-        .setColor('#ffbad2')
-        .setAuthor('Rich Embeds', 'https://i.imgur.com/wSTFkRM.png')
-        .setFooter('Courtesy of custom bot')
-        .setTimestamp()
-        .setTitle(
-          args.length < 1
-            ? 'Here is a list of my commands:'
-            : 'Here is information on the commands you requested:'
-        )
+      const response = new EmbedWrapper(
+        args.length < 1
+          ? 'Here is a list of my commands:'
+          : 'Here is information on the commands you requested:'
+      )
 
       if (args.length > 0) {
         // We have args, which means a specific list of commands was requested
@@ -32,8 +27,7 @@ module.exports = {
           const command = client.commands.get(requestedCommand)
           if (command) {
             response.addField(
-              `\n- ${command.name}:`,
-              `Description: ${command.description}\n  Usage: \`${prefix}${command.name} ${command.usage}\`\n`
+              `\n- ${command.name}:``Description: ${command.description}\n  Usage: \`${prefix}${command.name} ${command.usage}\`\n`
             )
           }
         })
