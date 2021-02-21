@@ -20,10 +20,10 @@ const commandFiles = fs
   .filter(file => file.endsWith('.js'))
 
 // Populate our commands list with the modules in our commands folder
-for (const file of commandFiles) {
+commandFiles.forEach(file => {
   const command = require(`./commands/${file}`)
   client.commands.set(command.name, command)
-}
+})
 
 // Log message so we know the bot is ready for use
 client.once('ready', () => {
@@ -46,7 +46,7 @@ client.on('message', message => {
 
   // Dynamically execute command, if it exists in our command folder.
   try {
-    client.commands.get(command).execute(message, args)
+    client.commands.get(command).execute({ message, args, client })
   } catch (error) {
     console.error(error)
     message.reply('There was an error trying to execute that command!')
