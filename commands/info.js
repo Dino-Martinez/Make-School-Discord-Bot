@@ -1,6 +1,9 @@
+const Discord = require('discord.js')
+
 module.exports = {
   name: 'info',
   description: 'Sends a list of server information.',
+  usage: '',
   execute (props) {
     // Destructure the things we need out of props
     const { message } = props
@@ -12,7 +15,22 @@ module.exports = {
       const name = guild.name
       const memberCount = guild.memberCount
       const owner = guild.owner.nickname
-      const response = `Info for ${name}: \nOwned by: ${owner} \nMember Count: ${memberCount}`
+      const response = new Discord.MessageEmbed()
+        .setColor('#ffbad2')
+        .setAuthor('Rich Embeds', 'https://i.imgur.com/wSTFkRM.png')
+        .setFooter('Courtesy of custom bot')
+        .setTitle(`Here is information about ${name}`)
+        .setTimestamp()
+        .addFields(
+          {
+            name: 'Owned by:',
+            value: owner
+          },
+          {
+            name: 'Member Count:',
+            value: memberCount
+          }
+        )
 
       // Send formatted string back to user
       channel.send(response)

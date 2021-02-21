@@ -42,11 +42,12 @@ client.on('message', message => {
     .slice(prefix.length)
     .trim()
     .split(/ +/)
-  const command = args.shift().toLowerCase()
+  const commandName = args.shift().toLowerCase()
+  const command = client.commands.get(commandName)
 
   // Dynamically execute command, if it exists in our command folder.
   try {
-    client.commands.get(command).execute({ message, args, client })
+    command.execute({ message, args, client, prefix })
   } catch (error) {
     console.error(error)
     message.reply('There was an error trying to execute that command!')
