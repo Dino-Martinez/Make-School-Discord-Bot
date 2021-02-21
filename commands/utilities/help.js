@@ -4,7 +4,9 @@ const Discord = require('discord.js')
 module.exports = {
   name: 'help',
   description: 'Sends information on available commands.',
-  usage: '<command | optional>',
+  usage: '[command | optional]',
+  minArgs: 0,
+  cooldown: 2,
   execute (props) {
     // Destructure the things we need out of props
     const { message, args, client, prefix } = props
@@ -31,7 +33,7 @@ module.exports = {
           if (command) {
             response.addField(
               `\n- ${command.name}:`,
-              `Description: ${command.description}\n  Usage: ${prefix}${command.name} ${command.usage}\n`
+              `Description: ${command.description}\n  Usage: \`${prefix}${command.name} ${command.usage}\`\n`
             )
           }
         })

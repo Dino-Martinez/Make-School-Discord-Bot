@@ -2,8 +2,11 @@ const Discord = require('discord.js')
 
 module.exports = {
   name: 'info',
+  aliases: ['server', 'information'],
   description: 'Sends a list of server information.',
   usage: '',
+  minArgs: 0,
+  cooldown: 2,
   execute (props) {
     // Destructure the things we need out of props
     const { message } = props
@@ -14,7 +17,7 @@ module.exports = {
       // Build server info string from our guild object
       const name = guild.name
       const memberCount = guild.memberCount
-      const owner = guild.owner.nickname
+      const owner = guild.owner.user.username
       const response = new Discord.MessageEmbed()
         .setColor('#ffbad2')
         .setAuthor('Rich Embeds', 'https://i.imgur.com/wSTFkRM.png')
