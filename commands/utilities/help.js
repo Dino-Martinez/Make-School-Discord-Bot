@@ -27,7 +27,8 @@ module.exports = {
           const command = client.commands.get(requestedCommand)
           if (command) {
             response.addField(
-              `\n- ${command.name}:``Description: ${command.description}\n  Usage: \`${prefix}${command.name} ${command.usage}\`\n`
+              `\n- ${command.name}:`,
+              `Description: ${command.description}\n  Usage: \`${prefix}${command.name} ${command.usage}\`\n`
             )
           }
         })
