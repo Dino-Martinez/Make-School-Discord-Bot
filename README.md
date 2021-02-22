@@ -19,7 +19,7 @@ Before working on this project, consider checking out this [tutorial on using di
 
 ### Creating commands -
 
-In order to create a new command, simply add it into a folder within `/commands`.
+In order to create a new command, simply add it into a folder within `src/commands`.
 For example, if you want to make a command that sends users cat pictures, create the file `/commands/fun/cats.js`. A command file should be structured as follows (see existing commands for reference):
 
 ```
@@ -43,7 +43,7 @@ In order have our bot send messages, all we have to do is use the `message` prop
 
 ### Using rich embeds
 
-In order to have our bot send a rich embed message, we can use the `helpers/EmbedWrapper.js` class. Simply add `const { EmbedWrapper } = require('../../helpers/EmbedWrapper.js')` to the top of your command file, and then build an embed with `const response = new EmbedWrapper('Embed Title')`. Next, add fields to the embed with `response.addField('name of field', 'value for field', inline)` where `inline` is a boolean representing if the field is meant to display in-line. To add multiple fields at once, we can call
+In order to have our bot send a rich embed message, we can use the `helpers/EmbedWrapper.js` class. Simply add `const { EmbedWrapper } = require('../../EmbedWrapper.js')` to the top of your command file, and then build an embed with `const response = new EmbedWrapper('Embed Title')`. Next, add fields to the embed with `response.addField('name of field', 'value for field', inline)` where `inline` is a boolean representing if the field is meant to display in-line. To add multiple fields at once, we can call
 
 ```
 response.addFields(

@@ -1,4 +1,4 @@
-const { EmbedWrapper } = require('../../helpers/EmbedWrapper.js')
+const { EmbedWrapper } = require('../../EmbedWrapper.js')
 
 module.exports = {
   name: 'info',

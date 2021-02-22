@@ -7,6 +7,7 @@ const fs = require('fs')
 const dotenv = require('dotenv')
 const Discord = require('discord.js')
 const { prefix } = require('./config/bot-config.json')
+const Processor = require('./src/Processor.js')
 
 dotenv.config()
 
@@ -14,19 +15,7 @@ dotenv.config()
 const client = new Discord.Client()
 
 // Grab list of commands from our commands folder
-client.commands = new Discord.Collection()
-const commandFolders = fs.readdirSync('./commands')
-commandFolders.forEach(folder => {
-  const commandFiles = fs
-    .readdirSync(`./commands/${folder}`)
-    .filter(file => file.endsWith('.js'))
-
-  // Populate our commands list with the modules in our commands folder
-  commandFiles.forEach(file => {
-    const command = require(`./commands/${folder}/${file}`)
-    client.commands.set(command.name, command)
-  })
-})
+client.commands = Processor.getCommands()
 
 // Create list of cooldowns to populate on the fly
 const cooldowns = new Discord.Collection()
@@ -44,39 +33,28 @@ client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
 
   // Separate the command from the arguments
-  const args = message.content
-    .slice(prefix.length)
-    .trim()
-    .split(/ +/)
-  const commandName = args.shift().toLowerCase()
-  const command =
-    client.commands.get(commandName) ||
-    client.commands.find(
-      cmd => cmd.aliases && cmd.aliases.includes(commandName)
-    )
+  const { command, args } = Processor.process(
+    message.content,
+    client.commands,
+    prefix
+  )
 
   // Check command against current cooldowns
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection())
   }
-  //
-  const now = Date.now()
+
   const timestamps = cooldowns.get(command.name)
-  const cooldownAmount = (command.cooldown || 3) * 1000
-
-  if (timestamps.has(message.author.id)) {
-    const expirationTime = timestamps.get(message.author.id) + cooldownAmount
-
-    if (now < expirationTime) {
-      const timeLeft = ((expirationTime - now) / 1000).toFixed(1)
-      return message.reply(
-        `Please wait ${timeLeft} more seconds before using that command again.`
-      )
-    }
+  const timeLeft = Processor.checkCoolDown(
+    cooldowns.get(command.name),
+    command,
+    message.author.id
+  )
+  if (timeLeft > 0.1) {
+    return message.reply(
+      `Please wait ${timeLeft} more seconds before using that command again.`
+    )
   }
-
-  timestamps.set(message.author.id, now)
-  setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
 
   // Dynamically execute command, if it exists in our command folder
   try {
