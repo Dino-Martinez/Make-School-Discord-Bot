@@ -35,25 +35,6 @@ client.on('message', message => {
   // If message is not a command or if author is a bot, then do nothing
   if (message.author.bot) return
 
-  // Check for existing member
-  let member = client.members.get(message.author.id)
-
-  // If member doesn't exist yet, create them and begin tracking message history
-  if (!member) {
-    member = { username: message.author.username }
-    member.messageHistory = []
-  }
-
-  // Add current message to user's history
-  const now = new Date().toUTCString()
-  member.messageHistory.push({
-    content: message.content,
-    sentAt: now
-  })
-  client.members.set(message.author.id, member)
-
-  console.log(member.messageHistory)
-
   if (!message.content.startsWith(prefix)) return
 
   // Separate the command from the arguments
@@ -94,4 +75,30 @@ client.on('message', message => {
     console.error(error)
     message.reply('There was an error trying to execute that command!')
   }
+})
+
+client.on('messageDelete', message => {
+  // Check for existing member
+  let member = client.members.get(message.author.id)
+
+  // If member doesn't exist yet, create them and begin tracking message history
+  if (!member) {
+    member = { username: message.author.username }
+    member.messageHistory = []
+  }
+
+  // Add current message to user's history
+  let deletedAt = new Date().toUTCString()
+  deletedAt = deletedAt.slice(0, deletedAt.length - 13)
+  let sentAt = message.createdAt.toUTCString()
+  sentAt = sentAt.slice(0, sentAt.length - 13)
+  member.messageHistory.push({
+    id: message.id,
+    content: message.content,
+    sentAt,
+    deletedAt
+  })
+  client.members.set(message.author.id, member)
+
+  console.log(member.messageHistory)
 })
