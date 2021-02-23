@@ -46,6 +46,11 @@ client.on('message', message => {
 
   // Dynamically execute command, if it exists in our command folder
   try {
+    if (!command) {
+      return message.reply(
+        `I could not find that command! For a list of commands, please type ${prefix}help`
+      )
+    }
     // Check command against current cooldowns
     if (!cooldowns.has(command.name)) {
       cooldowns.set(command.name, new Discord.Collection())
