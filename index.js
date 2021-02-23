@@ -32,25 +32,29 @@ client.login(process.env.BOT_TOKEN)
 
 // Listen for messages and handle accordingly
 client.on('message', message => {
+  // If message is not a command or if author is a bot, then do nothing
+  if (message.author.bot) return
+
+  // Check for existing member
   let member = client.members.get(message.author.id)
+
+  // If member doesn't exist yet, create them and begin tracking message history
   if (!member) {
-    member = {}
+    member = { username: message.author.username }
     member.messageHistory = []
   }
-  member.messageHistory.push(message.content)
+
+  // Add current message to user's history
+  const now = new Date().toUTCString()
+  member.messageHistory.push({
+    content: message.content,
+    sentAt: now
+  })
   client.members.set(message.author.id, member)
 
-  console.log(client.members)
+  console.log(member.messageHistory)
 
-  // If message is not a command or if author is a bot, then do nothing
-  if (!message.content.startsWith(prefix) || message.author.bot) return
-
-  if (message.content.startsWith('!member')) {
-    const request = client.members.get(
-      message.content.slice(11, message.content.length - 1)
-    )
-    return message.channel.send(request.messageHistory.join(', '))
-  }
+  if (!message.content.startsWith(prefix)) return
 
   // Separate the command from the arguments
   const { command, args } = Processor.process(
@@ -59,25 +63,26 @@ client.on('message', message => {
     prefix
   )
 
-  // Check command against current cooldowns
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Discord.Collection())
-  }
-
-  const timestamps = cooldowns.get(command.name)
-  const timeLeft = Processor.checkCoolDown(
-    cooldowns.get(command.name),
-    command,
-    message.author.id
-  )
-  if (timeLeft > 0.1) {
-    return message.reply(
-      `Please wait ${timeLeft} more seconds before using that command again.`
-    )
-  }
-
   // Dynamically execute command, if it exists in our command folder
   try {
+    // Check command against current cooldowns
+    if (!cooldowns.has(command.name)) {
+      cooldowns.set(command.name, new Discord.Collection())
+    }
+
+    const timestamps = cooldowns.get(command.name)
+    const timeLeft = Processor.checkCoolDown(
+      cooldowns.get(command.name),
+      command,
+      message.author.id
+    )
+
+    if (timeLeft > 0.1) {
+      return message.reply(
+        `Please wait ${timeLeft} more seconds before using that command again.`
+      )
+    }
+
     if (args.length >= command.minArgs) {
       command.execute({ message, args, client, prefix })
     } else {
