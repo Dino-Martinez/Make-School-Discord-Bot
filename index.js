@@ -17,6 +17,9 @@ const client = new Discord.Client()
 // Grab list of commands from our commands folder
 client.commands = Processor.getCommands()
 
+// Create list of users for tracking message history
+client.members = new Discord.Collection()
+
 // Create list of cooldowns to populate on the fly
 const cooldowns = new Discord.Collection()
 
@@ -29,8 +32,25 @@ client.login(process.env.BOT_TOKEN)
 
 // Listen for messages and handle accordingly
 client.on('message', message => {
+  let member = client.members.get(message.author.id)
+  if (!member) {
+    member = {}
+    member.messageHistory = []
+  }
+  member.messageHistory.push(message.content)
+  client.members.set(message.author.id, member)
+
+  console.log(client.members)
+
   // If message is not a command or if author is a bot, then do nothing
   if (!message.content.startsWith(prefix) || message.author.bot) return
+
+  if (message.content.startsWith('!member')) {
+    const request = client.members.get(
+      message.content.slice(11, message.content.length - 1)
+    )
+    return message.channel.send(request.messageHistory.join(', '))
+  }
 
   // Separate the command from the arguments
   const { command, args } = Processor.process(
