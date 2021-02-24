@@ -50,5 +50,15 @@ module.exports = {
     timestamps.set(author, now)
     setTimeout(() => timestamps.delete(author), cooldownAmount)
     return 0
+  },
+  filterProfanity: (message, prefix) => {
+    // If profanity exists, delete message, log info, and DM user
+    const badList = ['fuck', 'bitch']
+    message.content.split(' ').forEach(word => {
+      if (badList.includes(word)) {
+        message.author.send('You said a bad word')
+        message.delete()
+      }
+    })
   }
 }

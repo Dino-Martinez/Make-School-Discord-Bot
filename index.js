@@ -35,6 +35,8 @@ client.on('message', message => {
   // If message is not a command or if author is a bot, then do nothing
   if (message.author.bot) return
 
+  Processor.filterProfanity(message, prefix)
+
   if (!message.content.startsWith(prefix)) return
 
   // Separate the command from the arguments
@@ -82,6 +84,7 @@ client.on('message', message => {
   }
 })
 
+// Handler to track deleted messages
 client.on('messageDelete', message => {
   // Check for existing member
   let member = client.members.get(message.author.id)
