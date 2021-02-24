@@ -71,3 +71,21 @@ Check out [discord.js](https://discord.js.org/#/docs/main/stable/general/welcome
 Check out [node.js](https://nodejs.org/en/docs/) for more information on the Node runtime and environments.
 
 Check out the [Mozilla Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript) for more information on JavaScript as a whole.
+
+## Future Features List:
+
+If you want to add a cool feature but can't think of anything, pick something off this list!
+
+### High Priority:
+
+- All purpose information:
+  - !faq command that takes a frequently asked question and returns an answer
+  - !code-help command that takes a code question/topic and either returns an answer or a link to some smart google search or maybe DMs a list of resources
+  - !project-ideas command that returns a list of cool project ideas (maybe add query functionality)
+- Fun stuff:
+  - Text game commands like tic tac toe, rock paper scissors, hangman, etc.
+  - !space-facts command that returns a random space fact (maybe pulled from an API)
+  - Channel points per user, added whenever the user sends a message (with cooldown to avoid incentivizing spam)
+- Utilities:
+  - !remindme command that allows users to be DM'd the contents of a message they specify at a later time
+  - Mod Mail feature - if the bot recieves a dm with !mail, send the contents to a special #mod-mail channel in the server and @ staff roles
