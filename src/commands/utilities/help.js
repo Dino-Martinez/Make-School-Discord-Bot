@@ -3,6 +3,7 @@ const { EmbedWrapper } = require('../../EmbedWrapper.js')
 
 module.exports = {
   name: 'help',
+  aliases: ['commands'],
   description: 'Sends information on available commands.',
   usage: '[command | optional]',
   minArgs: 0,

@@ -3,6 +3,7 @@ const { EmbedWrapper } = require('../../EmbedWrapper.js')
 
 module.exports = {
   name: 'messages',
+  aliases: ['deleted'],
   description: 'Receive a list of message history for a given user.',
   usage: '<@User> <Message id | optional>',
   minArgs: 1,
