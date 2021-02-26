@@ -73,7 +73,8 @@ client.on('message', message => {
     }
 
     if (args.length >= command.minArgs) {
-      command.execute({ message, args, client, prefix })
+      const result = command.execute({ message, args, client, prefix })
+      Logger.log({ result, client, message })
     } else {
       message.channel.send(
         `You did not provide enough arguments!\nThe correct usage is \`${prefix}${command.name} ${command.usage}\``
@@ -110,6 +111,7 @@ client.on('messageDelete', message => {
     deletedAt
   })
   client.members.set(author.id, member)
+  const reason = 'Message Deleted'
 
-  Logger.log('message delete', client, content)
+  Logger.log({ reason, client, message })
 })
