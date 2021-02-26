@@ -17,6 +17,14 @@ Before working on this project, consider checking out this [tutorial on using di
 
 ## The basics:
 
+### Functionality that isn't a command -
+
+If you want to add functionality that isn't just a command (like !help), you have a few options:
+
+- Add it into index.js if it uses a different [Discord Client Event](https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelCreate)
+- Add it into Processor.js or Logger.js if it directly processes message content or if it extends the logging functionality
+- If neither, then create a new js file under src/. Then, require that file into index.js and use it as necessary.
+
 ### Creating commands -
 
 In order to create a new command, simply add it into a folder within `src/commands`.
