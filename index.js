@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 const Discord = require('discord.js')
 const { prefix } = require('./config/bot-config.json')
 const Processor = require('./src/Processor.js')
+const Logger = require('./src/Logger.js')
 
 dotenv.config()
 
@@ -88,6 +89,7 @@ client.on('message', message => {
 client.on('messageDelete', message => {
   // Check for existing member
   let member = client.members.get(message.author.id)
+  const { id, content, author } = message
 
   // If member doesn't exist yet, create them and begin tracking message history
   if (!member) {
@@ -100,13 +102,14 @@ client.on('messageDelete', message => {
   deletedAt = deletedAt.slice(0, deletedAt.length - 13)
   let sentAt = message.createdAt.toUTCString()
   sentAt = sentAt.slice(0, sentAt.length - 13)
+
   member.messageHistory.push({
-    id: message.id,
-    content: message.content,
+    id,
+    content,
     sentAt,
     deletedAt
   })
-  client.members.set(message.author.id, member)
+  client.members.set(author.id, member)
 
-  console.log(member.messageHistory)
+  Logger.log('message delete', client, content)
 })
