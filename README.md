@@ -90,6 +90,9 @@ If you want to add a cool feature but can't think of anything, pick something of
   - !faq command that takes a frequently asked question and returns an answer
   - !code-help command that takes a code question/topic and either returns an answer or a link to some smart google search or maybe DMs a list of resources
   - !project-ideas command that returns a list of cool project ideas (maybe add query functionality)
+
+### Low Priority:
+
 - Fun stuff:
   - Text game commands like tic tac toe, rock paper scissors, hangman, etc.
   - !space-facts command that returns a random space fact (maybe pulled from an API)
