@@ -7,7 +7,7 @@ module.exports = {
   usage: '',
   minArgs: 0,
   cooldown: 2,
-  execute (props) {
+  async execute (props) {
     // Destructure the things we need out of props
     const { message } = props
     const { guild, channel } = message
@@ -17,14 +17,15 @@ module.exports = {
       // Build server info string from our guild object
       const name = guild.name
       const memberCount = guild.memberCount
-      const owner = guild.owner.user.username
+      const owner = await guild.members.fetch(guild.ownerID)
+      const ownerName = owner.user.username
       const response = new EmbedWrapper(`Here is information about ${name}`)
 
       // Add our fields
       response.addFields(
         {
           name: 'Owned by:',
-          value: owner
+          value: ownerName
         },
         {
           name: 'Member Count:',
