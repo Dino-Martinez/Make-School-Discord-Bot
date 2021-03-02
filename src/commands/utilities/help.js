@@ -7,13 +7,15 @@ module.exports = {
   usage: '[command | optional]',
   minArgs: 0,
   cooldown: 2,
+  dmCommand: true,
+  guildCommand: true,
   execute (props) {
     // Destructure the things we need out of props
     const { message, args, client, prefix } = props
     const { guild, channel } = message
 
-    // Check that the guild is available for processing
-    if (guild.available) {
+    // Check that the command is in a dm or the guild is available for processing
+    if (!guild || guild.available) {
       // Build response string based on number of args
       const response = new EmbedWrapper(
         args.length < 1
@@ -36,7 +38,9 @@ module.exports = {
         // We have no args, which means no specific commands were requested
         // Return list of all commands
         client.commands.forEach(command => {
-          response.addField(`- ${command.name}:`, ` ${command.description}`)
+          if ((command.dmCommand && !guild) || (command.guildCommand && guild)) {
+            response.addField(`- ${command.name}:`, ` ${command.description}`)
+          }
         })
       }
 

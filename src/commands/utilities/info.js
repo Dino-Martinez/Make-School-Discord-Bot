@@ -7,6 +7,8 @@ module.exports = {
   usage: '',
   minArgs: 0,
   cooldown: 2,
+  dmCommand: false,
+  guildCommand: true,
   async execute (props) {
     // Destructure the things we need out of props
     const { message } = props

@@ -79,7 +79,12 @@ client.on('message', message => {
       )
     }
 
-    if (args.length >= command.minArgs) {
+    if (!message.guild && !command.dmCommand) {
+      message.channel.send('You must be in a server to use this command.')
+    } else if (message.guild && !command.guildCommand) {
+      message.author.send(`Use the command here instead! You sent: \`${message.content}\``)
+      message.delete()
+    } else if (args.length >= command.minArgs) {
       const result = command.execute({ message, args, client, prefix })
       Logger.log({ result, client, message })
     } else {
