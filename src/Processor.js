@@ -58,7 +58,9 @@ module.exports = {
     message.content.split(' ').forEach(word => {
       if (badList.includes(word)) {
         message.author.send('You said a bad word')
-        message.delete()
+        if (message.guild) {
+          message.delete()
+        }
       }
     })
   }
