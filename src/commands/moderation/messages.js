@@ -7,6 +7,8 @@ module.exports = {
   usage: '<@User> <Message id | optional>',
   minArgs: 1,
   cooldown: 3,
+  dmCommand: false,
+  guildCommand: true,
   execute (props) {
     // Destructure the things we need out of props
     const { message, args, client } = props
