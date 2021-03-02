@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const fs = require('fs')
+const path = require('path')
 
 const getCommand = (args, commands, prefix) => {
   const commandName = args.shift().toLowerCase()
@@ -21,15 +22,15 @@ module.exports = {
   },
   getCommands: () => {
     const commands = new Discord.Collection()
-    const commandFolders = fs.readdirSync(`${__dirname}/commands`)
+    const commandFolders = fs.readdirSync(path.join(__dirname, 'commands'))
     commandFolders.forEach(folder => {
       const commandFiles = fs
-        .readdirSync(`${__dirname}/commands/${folder}`)
+        .readdirSync(path.join(__dirname, 'commands', folder))
         .filter(file => file.endsWith('.js'))
 
       // Populate our commands list with the modules in our commands folder
       commandFiles.forEach(file => {
-        const command = require(`${__dirname}/commands/${folder}/${file}`)
+        const command = require(path.join(__dirname, 'commands', folder, file))
         commands.set(command.name, command)
       })
     })

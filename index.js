@@ -3,7 +3,6 @@
  */
 
 // Require necessary packages
-const fs = require('fs')
 const dotenv = require('dotenv')
 const Discord = require('discord.js')
 const { prefix } = require('./config/bot-config.json')
@@ -68,7 +67,6 @@ client.on('message', message => {
       cooldowns.set(command.name, new Discord.Collection())
     }
 
-    const timestamps = cooldowns.get(command.name)
     const timeLeft = Processor.checkCoolDown(
       cooldowns.get(command.name),
       command,

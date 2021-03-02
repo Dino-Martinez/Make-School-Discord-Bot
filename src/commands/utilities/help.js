@@ -1,4 +1,3 @@
-const fs = require('fs')
 const { EmbedWrapper } = require('../../EmbedWrapper.js')
 
 module.exports = {
@@ -44,7 +43,7 @@ module.exports = {
       // Send formatted response to user
       channel.send(response)
     } else {
-      throw 'The guild is not available'
+      throw new Error('The guild is not available')
     }
   }
 }

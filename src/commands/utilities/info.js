@@ -36,7 +36,7 @@ module.exports = {
       // Send formatted string back to user
       channel.send(response)
     } else {
-      throw 'The guild is not available'
+      throw new Error('The guild is not available')
     }
   }
 }

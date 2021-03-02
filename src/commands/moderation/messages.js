@@ -1,4 +1,3 @@
-const fs = require('fs')
 const { EmbedWrapper } = require('../../EmbedWrapper.js')
 
 module.exports = {
@@ -17,6 +16,7 @@ module.exports = {
     if (guild.available) {
       // Grab requested user from args
       const userRequest = args[0]
+      console.log(client.members)
       const user = client.members.get(
         userRequest.slice(3, userRequest.length - 1)
       )
