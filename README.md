@@ -17,7 +17,7 @@ Before working on this project, consider checking out this [tutorial on using di
 
 ## The basics:
 
-### Functionality that isn't a command -
+### Functionality that isn't a command
 
 If you want to add functionality that isn't just a command (like !help), you have a few options:
 
@@ -25,7 +25,7 @@ If you want to add functionality that isn't just a command (like !help), you hav
 - Add it into Processor.js or Logger.js if it directly processes message content or if it extends the logging functionality
 - If neither, then create a new js file under src/. Then, require that file into index.js and use it as necessary.
 
-### Creating commands -
+### Creating commands
 
 In order to create a new command, simply add it into a folder within `src/commands`.
 For example, if you want to make a command that sends users cat pictures, create the file `/commands/fun/cats.js`. A command file should be structured as follows (see existing commands for reference):
@@ -37,6 +37,8 @@ module.exports = {
   usage: '<usage information to be displayed by !help>',
   minArgs: <minimum number of arguments for the command to work>,
   cooldown: <cooldown time in seconds>,
+  dmCommand: <true if this command can be used in dms, false otherwise>,
+  guildCommand: <true if this command can be used in servers, false otherwise>,
   execute (props) {
     // Your code goes here
   }
@@ -89,14 +91,27 @@ If you want to add a cool feature but can't think of anything, pick something of
 - All purpose information:
   - !faq command that takes a frequently asked question and returns an answer
   - !code-help command that takes a code question/topic and either returns an answer or a link to some smart google search or maybe DMs a list of resources
-  - !project-ideas command that returns a list of cool project ideas (maybe add query functionality)
+- Miscellaneous functionality:
+  - Bot configuration (prefix, log channel, embed color, etc)
 
 ### Low Priority:
 
 - Fun stuff:
   - Text game commands like tic tac toe, rock paper scissors, hangman, etc.
   - !space-facts command that returns a random space fact (maybe pulled from an API)
-  - Channel points per user, added whenever the user sends a message (with cooldown to avoid incentivizing spam)
+  - Channel points per user, added whenever the user sends a message (with cooldown to avoid incentivizing spam). Maybe a bonus for images/links, or for receiving certain reactions
 - Utilities:
   - !remindme command that allows users to be DM'd the contents of a message they specify at a later time
   - Mod Mail feature - if the bot recieves a dm with !mail, send the contents to a special #mod-mail channel in the server and @ staff roles
+  - Dynamic utilities handler to make adding non-command functionality easy
+
+## Existing features:
+
+- ✅Dynamic command handler to make adding new commands easy.
+- ✅Dynamic help command to allow users to learn how the bot works
+- ✅Simple info command to receive information about the server
+- ✅Simple message sanitizing/parsing, with very basic profanity filter
+- ✅Dynamic embed creator to make pretty messages easier to build
+- ✅Dynamic logging functionality to allow important events to be tracked
+- ✅Dynamic cooldown handling for commands
+- ✅!project-ideas command that returns a list of cool project ideas (maybe add query functionality)
