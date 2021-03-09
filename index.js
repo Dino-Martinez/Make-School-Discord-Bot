@@ -82,7 +82,9 @@ client.on('message', message => {
     if (!message.guild && !command.dmCommand) {
       message.channel.send('You must be in a server to use this command.')
     } else if (message.guild && !command.guildCommand) {
-      message.author.send(`Use the command here instead! You sent: \`${message.content}\``)
+      message.author.send(
+        `Use the command here instead! You sent: \`${message.content}\``
+      )
       message.delete()
     } else if (args.length >= command.minArgs) {
       const result = command.execute({ message, args, client, prefix })
@@ -100,6 +102,7 @@ client.on('message', message => {
 
 // Handler to track deleted messages
 client.on('messageDelete', message => {
+  console.log('Deleted message')
   // Check for existing member
   let member = client.members.get(message.author.id)
   const { id, content, author } = message
@@ -126,4 +129,19 @@ client.on('messageDelete', message => {
   const reason = 'Message Deleted'
 
   Logger.log({ reason, client, message })
+})
+
+const filter = response =>
+  response.content.toLowerCase().match(/\d{7}/g) ||
+  response.content
+    .toLowerCase()
+    .match(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/g)
+
+client.on('guildMemberAdd', member => {
+  // When a user joins, request their MS id number and apply the student role
+  member.createDM().then(channel => {
+    channel.send(
+      'Please provide your Make School ID and email address. Type `!help email` for instructions!'
+    )
+  })
 })

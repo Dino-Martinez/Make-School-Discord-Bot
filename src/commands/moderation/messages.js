@@ -9,7 +9,7 @@ module.exports = {
   cooldown: 3,
   dmCommand: false,
   guildCommand: true,
-  execute(props) {
+  execute (props) {
     // Destructure the things we need out of props
     const { message, args, client } = props
     const { guild, channel } = message
@@ -64,5 +64,5 @@ module.exports = {
 
       return channel.send(response)
     }
-  },
+  }
 }

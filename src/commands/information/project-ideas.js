@@ -12,7 +12,7 @@ module.exports = {
   guildCommand: true,
   async execute (props) {
     // Destructure the things we need out of props
-    const { message, args, client, prefix } = props
+    const { message } = props
     const { guild, channel } = message
 
     // Check that the command is in a dm or the guild is available for processing
