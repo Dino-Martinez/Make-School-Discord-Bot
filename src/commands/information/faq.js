@@ -1,9 +1,10 @@
 const { EmbedWrapper } = require('../../EmbedWrapper.js')
+const questions = require('../../questions.json')
 
 module.exports = {
-  name: 'credits',
-  aliases: [],
-  description: 'Displays the people that worked on this bot.',
+  name: 'faq',
+  aliases: ['questions'],
+  description: 'Displays frequently asked questions',
   usage: '',
   minArgs: 0,
   cooldown: 2,
@@ -17,15 +18,16 @@ module.exports = {
     // Check that the command is in a dm or the guild is available for processing
     if (!guild || guild.available) {
       // Build response string
-      const response = new EmbedWrapper('Credits:')
-      response.addField('Dino Martnez', 'Beast')
-	  response.addField('Tristan Thompson', 'Also Beast')
-	  response.addField('Chai Nunes', 'Monky')
+      const response = new EmbedWrapper('Frequently Asked Questions:')
+      questions.questions.forEach(
+          q => {
+            response.addField(`Q: ${q.question}`, `A: ${q.answer}`)
+          })
 
       // Send formatted response to user
       channel.send(response)
-    } else {
+	} else {
       throw new Error('The guild is not available')
-    }
+	}
   }
 }

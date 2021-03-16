@@ -1,0 +1,14 @@
+{
+    "questions": [
+        {
+            "question": "Who is monky?",
+            "answer": "im monky",
+            "tags": []
+        },
+        {
+            "question": "Where can I find the code to this bot?",
+            "answer": "The code can be found here: https://github.com/Dino-Martinez/Make-School-Discord-Bot",
+            "tags": []
+        }
+    ]
+}
