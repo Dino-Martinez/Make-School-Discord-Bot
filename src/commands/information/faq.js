@@ -19,7 +19,7 @@ module.exports = {
     if (!guild || guild.available) {
       // Build response string
       const response = new EmbedWrapper('Frequently Asked Questions:')
-      questions.questions.forEach(
+      questions.forEach(
           q => {
             response.addField(`Q: ${q.question}`, `A: ${q.answer}`)
           })
