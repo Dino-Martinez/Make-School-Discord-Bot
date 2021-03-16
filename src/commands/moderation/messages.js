@@ -9,16 +9,16 @@ module.exports = {
   cooldown: 3,
   dmCommand: false,
   guildCommand: true,
-  execute (props) {
+  async execute (props) {
     // Destructure the things we need out of props
-    const { message, args, client } = props
+    const { message, args, client, students } = props
     const { guild, channel } = message
 
     // Check that the guild is available for processing
     if (guild.available) {
       // Grab requested user from args
       const userRequest = args[0]
-      const user = client.members.get(
+      const user = await students.get(
         userRequest.slice(3, userRequest.length - 1)
       )
 
@@ -37,7 +37,7 @@ module.exports = {
       // last 5 deleted messages
 
       if (messageId !== 'None') {
-        user.messageHistory.forEach((trackedMessage) => {
+        user.messageHistory.forEach(trackedMessage => {
           if (trackedMessage.id === messageId) {
             response.addField(
               `id = ${trackedMessage.id}:`,
@@ -51,7 +51,7 @@ module.exports = {
       } else {
         const splitPos =
           user.messageHistory.length < 5 ? 0 : user.messageHistory.length - 5
-        user.messageHistory.slice(splitPos).forEach((trackedMessage) => {
+        user.messageHistory.slice(splitPos).forEach(trackedMessage => {
           const content =
             trackedMessage.content.length < 100
               ? trackedMessage.content

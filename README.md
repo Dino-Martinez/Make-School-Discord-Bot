@@ -93,6 +93,7 @@ If you want to add a cool feature but can't think of anything, pick something of
   - !code-help command that takes a code question/topic and either returns an answer or a link to some smart google search or maybe DMs a list of resources
 - Miscellaneous functionality:
   - Bot configuration (prefix, log channel, embed color, etc)
+  - Configure Keyv to track existing users, rather than only tracking new users
 
 ### Low Priority:
 

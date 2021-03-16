@@ -8,6 +8,12 @@ const Discord = require('discord.js')
 const { prefix } = require('./config/bot-config.json')
 const Processor = require('./src/Processor.js')
 const Logger = require('./src/Logger.js')
+const Keyv = require('keyv')
+
+// One of the following
+const students = new Keyv('sqlite://students.db')
+
+students.on('error', err => console.error('Keyv connection error:', err))
 
 dotenv.config()
 
@@ -16,9 +22,6 @@ const client = new Discord.Client()
 
 // Grab list of commands from our commands folder
 client.commands = Processor.getCommands()
-
-// Create list of users for tracking message history
-client.members = new Discord.Collection()
 
 // Create list of cooldowns to populate on the fly
 const cooldowns = new Discord.Collection()
@@ -87,7 +90,13 @@ client.on('message', message => {
       )
       message.delete()
     } else if (args.length >= command.minArgs) {
-      const result = command.execute({ message, args, client, prefix })
+      const result = command.execute({
+        message,
+        args,
+        client,
+        prefix,
+        students
+      })
       Logger.log({ result, client, message })
     } else {
       message.channel.send(
@@ -101,17 +110,11 @@ client.on('message', message => {
 })
 
 // Handler to track deleted messages
-client.on('messageDelete', message => {
+client.on('messageDelete', async message => {
   console.log('Deleted message')
   // Check for existing member
-  let member = client.members.get(message.author.id)
+  const student = await students.get(message.author.id)
   const { id, content, author } = message
-
-  // If member doesn't exist yet, create them and begin tracking message history
-  if (!member) {
-    member = { username: message.author.username }
-    member.messageHistory = []
-  }
 
   // Add current message to user's history
   let deletedAt = new Date().toUTCString()
@@ -119,13 +122,13 @@ client.on('messageDelete', message => {
   let sentAt = message.createdAt.toUTCString()
   sentAt = sentAt.slice(0, sentAt.length - 13)
 
-  member.messageHistory.push({
+  student.messageHistory.push({
     id,
     content,
     sentAt,
     deletedAt
   })
-  client.members.set(author.id, member)
+  await students.set(author.id, student)
   const reason = 'Message Deleted'
 
   Logger.log({ reason, client, message })
@@ -137,7 +140,12 @@ const filter = response =>
     .toLowerCase()
     .match(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/g)
 
-client.on('guildMemberAdd', member => {
+client.on('guildMemberAdd', async member => {
+  // Begin tracking new student
+  const student = { username: member.username, email: 'None' }
+  student.messageHistory = []
+  await students.set(member.id, student)
+
   // When a user joins, request their MS id number and apply the student role
   member.createDM().then(channel => {
     channel.send(

@@ -8,16 +8,16 @@ module.exports = {
   cooldown: 3,
   dmCommand: true,
   guildCommand: false,
-  execute (props) {
+  async execute (props) {
     // Destructure the things we need out of props
-    const { message, args, client } = props
+    const { message, args, client, students } = props
     const { author } = message
     let email = ''
     const studentId = 0
 
     // If no arguments, send existing information
     if (args.length === 0) {
-      const student = client.members.get(author.id)
+      const student = await students.get(author.id)
       if (!student) {
         return author.send(
           'You do not have any existing information. Type `!help student` to learn how to update your information.'
@@ -35,14 +35,10 @@ module.exports = {
     }
 
     // Append information to the client student object
-    let student = client.members.get(author.id)
-    let messageHistory = []
-    if (student) {
-      messageHistory = student.messageHistory
-    }
-    student = { username: author.username, email, messageHistory }
+    const student = await students.get(author.id)
+    student.email = email
 
-    client.members.set(author.id, student)
+    await students.set(author.id, student)
 
     // Return success message
     author.send('You have successfully updated your information!')
