@@ -36,6 +36,17 @@ module.exports = {
     })
     return commands
   },
+  startListeners: props => {
+    const listenerFiles = fs
+      .readdirSync(path.join(__dirname, 'listeners'))
+      .filter(file => file.endsWith('.js'))
+
+    // Populate our listeners list with the modules in our listeners folder
+    listenerFiles.forEach(file => {
+      const listener = require(path.join(__dirname, 'listeners', file))
+      listener(props)
+    })
+  },
   checkCoolDown: (timestamps, command, author) => {
     const now = Date.now()
     const cooldownAmount = (command.cooldown || 3) * 1000
