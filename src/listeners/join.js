@@ -1,4 +1,4 @@
-const { EmbedWrapper } = require("../EmbedWrapper.js")
+const { EmbedWrapper } = require('../EmbedWrapper.js')
 
 module.exports = props => {
   const { client, students } = props

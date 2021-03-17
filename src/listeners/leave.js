@@ -2,8 +2,8 @@ module.exports = props => {
   const { students, client } = props
   client.on('guildMemberDelete', async member => {
     // Delete existing student
-    const student = await students.get(member.id)
-    const deleted = await students.delete(member.id)
+    await students.get(member.id)
+    await students.delete(member.id)
 
     // When a user leaves, DM them
     member.createDM().then(channel => {

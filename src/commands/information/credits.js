@@ -19,8 +19,8 @@ module.exports = {
       // Build response string
       const response = new EmbedWrapper('Credits:')
       response.addField('Dino Martnez', 'Beast')
-	  response.addField('Tristan Thompson', 'Also Beast')
-	  response.addField('Chai Nunes', 'Monky')
+      response.addField('Tristan Thompson', 'Also Beast')
+      response.addField('Chai Nunes', 'Monky')
 
       // Send formatted response to user
       channel.send(response)

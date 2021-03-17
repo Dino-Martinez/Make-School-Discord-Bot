@@ -10,10 +10,9 @@ module.exports = {
   guildCommand: false,
   async execute (props) {
     // Destructure the things we need out of props
-    const { message, args, client, students } = props
+    const { message, args, students } = props
     const { author } = message
     let email = ''
-    const studentId = 0
 
     // If no arguments, send existing information
     if (args.length === 0) {
