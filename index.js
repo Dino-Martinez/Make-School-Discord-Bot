@@ -153,17 +153,3 @@ client.on('guildMemberAdd', async member => {
     )
   })
 })
-client.on('guildMemberDelete', async member => {
-  // Delete existing student
-  const student = await students.get(member.id)
-  console.log(student)
-  const deleted = await students.delete(member.id)
-  console.log(deleted)
-
-  // When a user leaves, DM them
-  member.createDM().then(channel => {
-    channel.send(
-      'You have left students.'
-    )
-  })
-})
