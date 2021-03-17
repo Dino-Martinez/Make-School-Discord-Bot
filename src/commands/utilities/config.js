@@ -41,7 +41,7 @@ module.exports = {
             Object.keys(botConfig).forEach(key => {
               response.addField(key, botConfig[key])
             })
-            writeFileSync(filePath, JSON.stringify(botConfig, undefined, 2))
+            writeFileSync(filePath, `${JSON.stringify(botConfig, undefined, 2)}\n`)
           } else {
             // > 2 arguments
             return channel.send("That key does not exist!")
