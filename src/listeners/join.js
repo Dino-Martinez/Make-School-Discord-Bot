@@ -1,3 +1,5 @@
+const { EmbedWrapper } = require("../EmbedWrapper.js")
+
 module.exports = props => {
   const { client, students } = props
   client.on('guildMemberAdd', async member => {
@@ -6,11 +8,12 @@ module.exports = props => {
     student.messageHistory = []
     await students.set(member.id, student)
 
+    const response = new EmbedWrapper('Click the link below to connect your Make School Email:')
+    response.addField('Google Auth Link:', `https://www.google.com/?did=${member.id}`)
+
     // When a user joins, request their MS id number and apply the student role
     member.createDM().then(channel => {
-      channel.send(
-        'Please provide your Make School ID and email address. Type `!help email` for instructions!'
-      )
+      channel.send(response)
     })
   })
 }
