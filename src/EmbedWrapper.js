@@ -1,9 +1,10 @@
 const Discord = require('discord.js')
+const { embedColor } = require('../config/bot-config.json')
 
 class EmbedWrapper extends Discord.MessageEmbed {
   constructor (title) {
     super()
-      .setColor('#ffbad2')
+      .setColor(embedColor)
       .setTimestamp()
       .setTitle(title)
   }
