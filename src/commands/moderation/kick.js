@@ -15,6 +15,9 @@ module.exports = {
       // Check that the guild is available for processing
       if (guild.available) {
         const member = message.mentions.members.first()
+        if (member === undefined) {
+          return channel.send("You must supply a user!")
+        }
         if (member.kickable) {
           member.kick()
           return channel.send(`User ${member.displayName} was kicked.`)

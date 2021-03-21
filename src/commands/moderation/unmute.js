@@ -1,7 +1,7 @@
 module.exports = {
-    name: 'mute',
+    name: 'unmute',
     aliases: [],
-    description: 'Mutes a specified user.',
+    description: 'Unmutes a specified user.',
     usage: '<@User>',
     minArgs: 1,
     cooldown: 2,
@@ -16,15 +16,15 @@ module.exports = {
       if (guild.available) {
         const member = message.mentions.members.first()
         if (member === undefined) {
-          return channel.send("You must supply a user!")
-        }
+            return channel.send("You must supply a user!")
+          }
         let roles = await guild.roles.fetch()
-        let mutedRole = roles.cache.find(role => role.name == "Muted" )
+        let mutedRole = roles.cache.find(role => role.name == "Muted")
         if (member.roles.cache.find(role => role.name == "Muted")) {
-          channel.send("User already muted!")
+            member.roles.remove(mutedRole)
+          channel.send("User has been unmuted")
         } else {
-          member.roles.add(mutedRole)
-          channel.send("User has been muted.")
+          channel.send("User is not muted!")
         }
       } else {
         throw new Error('The guild is not available')
