@@ -19,7 +19,7 @@ const redirect_uris = ["urn:ietf:wg:oauth:2.0:oob","http://localhost"]
 // Configure dotenv for token grabbing
 dotenv.config()
 
-const students = new Keyv('sqlite://students.db')
+const students = new Keyv('sqlite://../../students.db')
 let discordID = ""
 
 //Middelware
@@ -42,33 +42,15 @@ app.get('/google-auth', async (req, res) => {
 
   // Check if student has a token
   if (!student.token) {
-    getAccessToken(oAuth2Client)
+    getAccessToken(oAuth2Client, student)
   }
   else {
-    console.log(student.token)
     oAuth2Client.setCredentials(student.token);
     listEvents(oAuth2Client);
   }
 })
 
-function authorize(credentials, callback) {
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
-  const oAuth2Client = new google.auth.OAuth2(
-      client_id, client_secret, redirect_uris[0]);
-
-  // Check if student has a token
-  student = students.get(discordID)
-  if (!student.token) {
-    getAccessToken(oAuth2Client, callback)
-  }
-  else {
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  }
-}
-
-async function getAccessToken(oAuth2Client) {
-  const student = await students.get(discordID)
+async function getAccessToken(oAuth2Client, student) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
@@ -86,6 +68,7 @@ async function getAccessToken(oAuth2Client) {
       // Store the token to the student object for later querys
       student.token = token
       students.set(discordID, student)
+      listEvents(oAuth2Client)
     });
   });
 }
