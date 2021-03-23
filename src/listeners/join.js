@@ -9,7 +9,7 @@ module.exports = props => {
     await students.set(member.id, student)
 
     const response = new EmbedWrapper('Click the link below to connect your Make School Email:')
-    response.addField('Google Auth Link:', `http://localhost:3000/start/?discordID=${member.id}`)
+    response.addField('Google Auth Link:', `http://localhost:3000/google-auth/?discordID=${member.id}`)
 
     // When a user joins, request their MS id number and apply the student role
     member.createDM().then(channel => {
