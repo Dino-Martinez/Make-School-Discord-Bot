@@ -3,31 +3,18 @@ const dotenv = require('dotenv')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const passport = require('passport');
-const cookieSession = require('cookie-session')
-require('./passport-setup')
-const util = require('util')
-const Keyv = require('keyv')
 const readline = require('readline')
+const Keyv = require('keyv')
 const fs = require('fs');
 const {google} = require('googleapis');
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-const client_secret = "uMfTeCXv0cqfB-GXUX9ZSmIU"
-const client_id = "29759645700-2vvqd8cjeq6t18t8uihc3kleupgqg93t.apps.googleusercontent.com"
-const redirect_uris = ["urn:ietf:wg:oauth:2.0:oob","http://localhost"]
 
 // Configure dotenv for token grabbing
 dotenv.config()
 
+// Configure Keyv instance to store student data
 const students = new Keyv('sqlite://../../students.db')
 let discordID = ""
-
-//Middelware
-app.use(cors())
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
-app.use(bodyParser.json())
 
 app.get('/start', async (req, res) => {
   discordID = await req.query.discordID
@@ -37,7 +24,7 @@ app.get('/start', async (req, res) => {
 app.get('/google-auth', async (req, res) => {
   // Authorize a client with credentials, then call the Google Calendar API.
   const oAuth2Client = new google.auth.OAuth2(
-      client_id, client_secret, redirect_uris[0]);
+      process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.REDIRECT_URI);
   const student = await students.get(discordID)
 
   // Check if student has a token
@@ -51,6 +38,7 @@ app.get('/google-auth', async (req, res) => {
 })
 
 async function getAccessToken(oAuth2Client, student) {
+  //generate the Auth Url for a User to get an access token to Google Calendar API
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
