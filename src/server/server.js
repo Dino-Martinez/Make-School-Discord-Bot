@@ -34,15 +34,9 @@ const students = new Keyv('sqlite://students.db')
 students.on('error', err => console.error('Keyv connection error:', err))
 let discordID = ''
 
-app.get('/', async (req, res) => {
-  res.send('Hello')
-})
-
 app.get('/google-auth', async (req, res) => {
   discordID = req.query.discordID
-  console.log(discordID)
   const student = await students.get(discordID)
-  console.log(student)
 
   if (!student) return
 
