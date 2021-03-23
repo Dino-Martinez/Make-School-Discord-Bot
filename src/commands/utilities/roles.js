@@ -12,18 +12,16 @@ module.exports = {
   guildCommand: false,
   async execute (props) {
     // Destructure the things we need out of props
-    const { message, client } = props
+    const { message, client, students } = props
     const { author } = message
     const guild = await client.guilds.fetch('663769843186663444')
     const member = await guild.members.fetch(author.id)
+    const student = await students.get(author.id)
+    const courses = student.courses
 
-    // Create mock calendar -- this will be replaced by a google calendar api call later
-    const calendar = {
-      courses: ['BEW1.2', 'BEW1.3', 'SPD1.3', 'PM1000']
-    }
-
+    // Acquire all roles within the guild
     let roles = await guild.roles.fetch()
-    roles = roles.cache.filter(role => calendar.courses.includes(role.name))
+    roles = roles.cache.filter(role => courses.includes(role.name))
 
     // Edit users roles according to the calendar
     roles.forEach(role => {
