@@ -1,12 +1,17 @@
 [
-    {
-        "question": "Who is monky?",
-        "answer": "im monky",
-        "tags": []
-    },
-    {
-        "question": "Where can I find the code to this bot?",
-        "answer": "The code can be found here: https://github.com/Dino-Martinez/Make-School-Discord-Bot",
-        "tags": []
-    }
+  {
+    "question": "How do I use this bot?",
+    "answer": "Type !help",
+    "tags": ["help"]
+  },
+  {
+    "question": "Where can I find the code to this bot?",
+    "answer": "The code can be found here: https://github.com/Dino-Martinez/Make-School-Discord-Bot",
+    "tags": []
+  },
+  {
+    "question": "Who do I talk to if I have questions?",
+    "answer": "Send a DM to Jordan Arnesen! He can point you in the right direction.",
+    "tags": ["staff", "who", "where"]
+  }
 ]

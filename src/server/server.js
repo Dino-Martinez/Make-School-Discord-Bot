@@ -38,6 +38,7 @@ app.get('/google-auth', async (req, res) => {
   discordID = req.query.discordID
   const student = await students.get(discordID)
 
+  // If the student is not in our database, do nothing
   if (!student) return
 
   // Check if student has a token
@@ -65,7 +66,7 @@ app.post('/google/login', async (req, res) => {
   })
 })
 
-function storeEvents (auth, student) {
+const storeEvents = (auth, student) => {
   const calendar = google.calendar({ version: 'v3', auth })
   calendar.events.list(
     {

@@ -16,13 +16,15 @@ module.exports = {
     if (guild.available) {
       const member = message.mentions.members.first()
       if (member === undefined) {
-        return channel.send('You must supply a user!')
+        channel.send('You must supply a user!')
+        return
       }
       if (member.bannable) {
         member.ban()
-        return channel.send(`User ${member.displayName} was banned.`)
+        channel.send(`User ${member.displayName} was banned.`)
+        return 'Member Banned'
       } else {
-        return channel.send(`Cannot ban ${member.displayName}.`)
+        channel.send(`Cannot ban ${member.displayName}.`)
       }
     } else {
       throw new Error('The guild is not available')

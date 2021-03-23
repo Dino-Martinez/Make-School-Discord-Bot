@@ -12,7 +12,7 @@ module.exports = props => {
     prefix,
     cooldowns
   } = props
-  client.on('message', message => {
+  client.on('message', async message => {
     // If message is not a command or if author is a bot, then do nothing
     if (message.author.bot) return
 
@@ -66,14 +66,14 @@ module.exports = props => {
         )
         message.delete()
       } else if (args.length >= command.minArgs) {
-        const result = command.execute({
+        const reason = await command.execute({
           message,
           args,
           client,
           prefix,
           students
         })
-        Logger.log({ result, client, message })
+        Logger.log({ reason, client, message })
       } else {
         message.channel.send(
           `You did not provide enough arguments!\nThe correct usage is \`${prefix}${command.name} ${command.usage}\``

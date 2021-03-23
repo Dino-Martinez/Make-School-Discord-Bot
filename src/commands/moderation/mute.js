@@ -16,7 +16,8 @@ module.exports = {
     if (guild.available) {
       const member = message.mentions.members.first()
       if (member === undefined) {
-        return channel.send('You must supply a user!')
+        channel.send('You must supply a user!')
+        return
       }
       const roles = await guild.roles.fetch()
       const mutedRole = roles.cache.find(role => role.name === 'Muted')
@@ -25,6 +26,7 @@ module.exports = {
       } else {
         member.roles.add(mutedRole)
         channel.send('User has been muted.')
+        return 'Member Muted'
       }
     } else {
       throw new Error('The guild is not available')
