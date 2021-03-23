@@ -10,7 +10,7 @@ module.exports = {
   async execute (props) {
     const { message, students } = props
     const { guild, channel } = message
-    
+
     if (guild.available) {
       guild.members.fetch().then(members => {
         [...members.values()].forEach(async member => {
@@ -21,7 +21,7 @@ module.exports = {
         })
       })
 
-      return channel.send("Members added.")
+      return channel.send('Members added.')
     } else {
       throw new Error('The guild is not available')
     }

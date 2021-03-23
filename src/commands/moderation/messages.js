@@ -23,7 +23,7 @@ module.exports = {
       )
 
       if (user === undefined) {
-        return channel.send("That user does not exist.")
+        return channel.send('That user does not exist.')
       }
 
       // Grab message id if it was requested

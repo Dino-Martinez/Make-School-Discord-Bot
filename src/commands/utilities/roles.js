@@ -1,5 +1,3 @@
-const { logChannelId } = require('../../../config/bot-config.json')
-
 module.exports = {
   name: 'roles',
   aliases: ['update'],
@@ -21,7 +19,18 @@ module.exports = {
 
     // Acquire all roles within the guild
     let roles = await guild.roles.fetch()
-    roles = roles.cache.filter(role => courses.includes(role.name))
+    roles = roles.cache.map(role => {
+      let acceptedRole = null
+
+      courses.forEach(course => {
+        if (course.startsWith(role.name)) {
+          acceptedRole = role
+        }
+      })
+      return acceptedRole
+    })
+
+    roles = roles.filter(role => role !== null)
 
     // Edit users roles according to the calendar
     roles.forEach(role => {

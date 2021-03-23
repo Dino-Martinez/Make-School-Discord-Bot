@@ -16,7 +16,7 @@ module.exports = {
     if (guild.available) {
       const member = message.mentions.members.first()
       if (member === undefined) {
-        return channel.send("You must supply a user!")
+        return channel.send('You must supply a user!')
       }
       if (member.bannable) {
         member.ban()

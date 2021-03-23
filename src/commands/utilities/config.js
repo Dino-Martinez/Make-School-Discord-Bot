@@ -5,8 +5,7 @@ const { EmbedWrapper } = require('../../EmbedWrapper.js')
 module.exports = {
   name: 'config',
   aliases: ['setup', 'cfg'],
-  description:
-      'Edit bot config.',
+  description: 'Edit bot config.',
   usage: '<key> <value>',
   minArgs: 0,
   cooldown: 2,
@@ -43,20 +42,26 @@ module.exports = {
           return channel.send(`The key \`${args[0]}\` does not exist!`)
         }
       } else if (args.length === 2) {
-        if (args[0] == "clear" && Array.isArray(botConfig[args[1]])) {
+        if (args[0] === 'clear' && Array.isArray(botConfig[args[1]])) {
           botConfig[args[1]] = []
           addConfigToResponse()
-          writeFileSync(filePath, `${JSON.stringify(botConfig, undefined, 2)}\n`)
+          writeFileSync(
+            filePath,
+            `${JSON.stringify(botConfig, undefined, 2)}\n`
+          )
         } else if (Object.prototype.hasOwnProperty.call(botConfig, args[0])) {
-          if (typeof botConfig[args[0]] == "string") {
+          if (typeof botConfig[args[0]] === 'string') {
             botConfig[args[0]] = args[1]
           } else {
-            botConfig[args[0]] = [ args[1] ]
+            botConfig[args[0]] = [args[1]]
           }
           Object.keys(botConfig).forEach(key => {
             response.addField(key, botConfig[key])
           })
-          writeFileSync(filePath, `${JSON.stringify(botConfig, undefined, 2)}\n`)
+          writeFileSync(
+            filePath,
+            `${JSON.stringify(botConfig, undefined, 2)}\n`
+          )
         } else {
           return channel.send(`The key \`${args[0]}\` does not exist!`)
         }
@@ -65,7 +70,10 @@ module.exports = {
           if (Array.isArray(botConfig[args[0]])) {
             botConfig[args[0]] = args.slice(1)
             addConfigToResponse()
-            writeFileSync(filePath, `${JSON.stringify(botConfig, undefined, 2)}\n`)
+            writeFileSync(
+              filePath,
+              `${JSON.stringify(botConfig, undefined, 2)}\n`
+            )
           } else {
             return channel.send('You are sending too many arguments.')
           }

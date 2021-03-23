@@ -26,7 +26,7 @@ module.exports = props => {
       client.commands,
       prefix
     )
-    
+
     const configPath = path.resolve(__dirname, '../../config/bot-config.json')
     const rawConfig = readFileSync(configPath)
     const { blacklist } = JSON.parse(rawConfig)
@@ -56,7 +56,7 @@ module.exports = props => {
       }
 
       // check if command is blacklisted
-      if (blacklist.includes(command.name) && command.name != 'config') {
+      if (blacklist.includes(command.name) && command.name !== 'config') {
         message.channel.send('That command is blacklisted.')
       } else if (!message.guild && !command.dmCommand) {
         message.channel.send('You must be in a server to use this command.')
