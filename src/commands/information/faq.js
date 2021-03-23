@@ -20,14 +20,14 @@ module.exports = {
       // Build response string
       const response = new EmbedWrapper('Frequently Asked Questions:')
       questions.forEach(
-          q => {
-            response.addField(`Q: ${q.question}`, `A: ${q.answer}`)
-          })
+        q => {
+          response.addField(`Q: ${q.question}`, `A: ${q.answer}`)
+        })
 
       // Send formatted response to user
       channel.send(response)
-	} else {
+    } else {
       throw new Error('The guild is not available')
-	}
+    }
   }
 }
