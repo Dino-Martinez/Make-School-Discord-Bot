@@ -53,7 +53,10 @@ app.post('/google/login', async (req, res) => {
     // Store the token to the student object for later querys
     student.token = token
     students.set(discordID, student)
-    storeEvents(oAuth2Client, student)
+    const flag = storeEvents(oAuth2Client, student)
+    if (flag) {
+      res.render("success")
+    }
   })
 })
 
@@ -83,5 +86,6 @@ function storeEvents (auth, student) {
       students.set(discordID, student)
     }
   })
+  return 1
 }
 app.listen(process.env.PORT, () => console.log(`Example app listening on port ${process.env.PORT}!`))
